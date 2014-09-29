@@ -4,7 +4,7 @@
 <style>
 .blocklySvg {
   width: 100%;
-  height: 500px;
+  height: 400px;
 }
 
 aside {
@@ -26,33 +26,27 @@ aside {
 <button id="my-button">Click me!</button>
 <div id="output"></div>
 </script>
-<p>Our goal is to add the paragraph "You clicked me!" to
+<p>Our goal is to add the text "You clicked me!" to
   <code>#output</code> every time <code>#my-button</code> is clicked.
   This can be done with JavaScript.</p>
 <aside>Don't know what the <code>#</code> at the beginning of <code>#output</code> means? You should <a href="http://toolness.github.io/css-selector-game/" target="_blank">learn how CSS selectors work</a>!</aside>
-<p>Internally, browsers see a page as a heirarchy of <em>elements</em>&mdash;building blocks that make up a page. This heirarchy is sometimes called the <em>Document Object Model</em>, or DOM. JavaScript can access the DOM to react to <em>events</em> initiated by the user, such as clicks or taps, and it can manipulate the DOM in real-time by adding, changing, or removing elements.</p>
-<p>But JavaScript can be hard to learn: there are lots of funny symbols in it
+<p>Internally, browsers see a page as a heirarchy of <em>nodes</em>&mdash;building blocks that make up a page. This heirarchy is sometimes called the <em>Document Object Model</em>, or DOM. JavaScript can access the DOM to react to <em>events</em> initiated by the user, such as clicks or taps, and it can manipulate the DOM in real-time by adding, changing, or removing nodes.</p>
+<p>One type of node is an <em>element</em>, which roughly corresponds to tags in an HTML page. For instance, a <code>p</code> element represents an opening <code>&lt;p&gt;</code> tag and its corresponding closing tag. Everything in between these two tags are referred to as <em>children</em> of the element.</p>
+<p>One such type of child is called a <em>text node</em>, which represents text inside an element.</p>
+<p>JavaScript can be hard to learn: there are lots of funny symbols in it
   like <code>{</code> and <code>;</code> that have to be entered in just
-  the right order, or else nothing will happen. So instead of typing
+  the right order, or else nothing will happen. Having to deal with this <em>and</em> learning the DOM at the same time can be frustrating, so instead of typing
   JavaScript directly, you can use the <a href="https://code.google.com/p/blockly/">Blockly</a>-based interface below to write the JavaScript for you. (Don't
   worry, you'll be learning to write JavaScript yourself soon!)</p>
 <p>Try experimenting with the editor below by dragging blocks from the palette on the left side to the workspace area on the right.</p>
 
 <div id="blockly">
   <xml id="toolbox" style="display: none">
-    <block type="create_element"></block>
-    <block type="text_node"></block>
-    <block type="query_selector"></block>
-    <block type="append_element"></block>
     <block type="handle_event"></block>
-    <block type="controls_if"></block>
-    <block type="variables_get"></block>
-    <block type="variables_set"></block>
+    <block type="append_element"></block>
+    <block type="query_selector"></block>
+    <block type="text_node"></block>
     <block type="text"></block>
-    <block type="text_join"></block>
-    <block type="logic_compare"></block>
-    <block type="logic_operation"></block>
-    <block type="math_number"></block>
   </xml>
 </div>
 
@@ -64,7 +58,7 @@ aside {
 
 <div id="rendering-holder"></div>
 
-<p>Now see if you can get a paragraph with the text "You clicked me!" to be added to the output every time you click the button labeled "Click me!".</p>
+<p>Now see if you can get the text "You clicked me!" to be added to the output every time you click the button labeled "Click me!".</p>
 
 <script src="vendor/jquery.js"></script>
 <script src="vendor/codemirror/codemirror.js"></script>
