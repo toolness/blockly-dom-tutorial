@@ -21,7 +21,7 @@ never see. My impression is that this focus on computation over practicality
 lose interest quickly.
 
 On the other hand, contextualizing imperative programming
-within the realm on HTML and CSS knowledge that learners already find
+within the realm of HTML and CSS that learners already find
 useful&mdash;even at the expense of learning syntax and some 
 semantics&mdash;may allow them to immediately understand the utility of 
 JavaScript, providing them with enough motivation to continue learning it.
