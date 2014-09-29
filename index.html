@@ -6,24 +6,52 @@
   width: 100%;
   height: 500px;
 }
+
+aside {
+  background: #f0f0f0;
+  padding: 1em;
+}
 </style>
 <title>DOM Tutorial</title>
 <p>So you know the basics of HTML and CSS, but not Javascript?</p>
-<xml id="toolbox" style="display: none">
-  <block type="create_element"></block>
-  <block type="text_node"></block>
-  <block type="body_element"></block>
-  <block type="append_element"></block>
-  <block type="handle_event"></block>
-  <block type="controls_if"></block>
-  <block type="variables_get"></block>
-  <block type="variables_set"></block>
-  <block type="text"></block>
-  <block type="text_join"></block>
-  <block type="logic_compare"></block>
-  <block type="logic_operation"></block>
-  <block type="math_number"></block>
-</xml>
+<p>Suppose we have a webpage with the following HTML:</p>
+<script type="text/html">
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>My Page</title>
+<button id="my-button">Click me!</button>
+<div id="output"></div>
+</script>
+<p>Our goal is to add the paragraph "You clicked me!" to
+  <code>#output</code> every time <code>#my-button</code> is clicked.
+  This can be done with JavaScript.</p>
+<aside>Don't know what the <code>#</code> at the beginning of <code>#output</code> means? You should <a href="http://toolness.github.io/css-selector-game/" target="_blank">learn how CSS selectors work</a>!</aside>
+<p>Internally, browsers see a page as a heirarchy of <em>elements</em>&mdash;building blocks that make up a page. This heirarchy is sometimes called the <em>Document Object Model</em>, or DOM. JavaScript can access the DOM to react to <em>events</em> initiated by the user, such as clicks or taps, and it can manipulate the DOM in real-time by adding, changing, or removing elements.</p>
+<p>But JavaScript can be hard to learn: there are lots of funny symbols in it
+  like <code>{</code> and <code>;</code> that have to be entered in just
+  the right order, or else nothing will happen. So instead of typing
+  JavaScript directly, you can use the <a href="https://code.google.com/p/blockly/">Blockly</a>-based interface below to write the JavaScript for you. (Don't
+  worry, you'll be learning to write JavaScript yourself soon!)</p>
+<p>Try experimenting with the editor below by dragging blocks from the palette on the left side to the workspace area on the right.</p>
+
+<div id="blockly">
+  <xml id="toolbox" style="display: none">
+    <block type="create_element"></block>
+    <block type="text_node"></block>
+    <block type="body_element"></block>
+    <block type="append_element"></block>
+    <block type="handle_event"></block>
+    <block type="controls_if"></block>
+    <block type="variables_get"></block>
+    <block type="variables_set"></block>
+    <block type="text"></block>
+    <block type="text_join"></block>
+    <block type="logic_compare"></block>
+    <block type="logic_operation"></block>
+    <block type="math_number"></block>
+  </xml>
+</div>
+
 <script src="vendor/jquery.js"></script>
 <script src="vendor/codemirror/codemirror.js"></script>
 <script src="vendor/codemirror/xml.js"></script>
@@ -59,9 +87,16 @@ function saveCurrentWorkspace() {
 // Initialization.
 
 $(function() {
-  Blockly.inject(document.body, {
+  $('script[type="text/html"]').each(function() {
+    var html = $.trim($(this).text());
+    var pre = $('<pre data-lang="htmlmixed"></pre>').text(html);
+    $(this).replaceWith(pre);
+    CodeMirror.colorize(pre.get());
+  });
+
+  Blockly.inject($('#blockly')[0], {
     path: 'vendor/blockly/',
-    toolbox: document.getElementById('toolbox')
+    toolbox: $('#toolbox')[0]
   });
 
   Blockly.addChangeListener(saveCurrentWorkspace);
