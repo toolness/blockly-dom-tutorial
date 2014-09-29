@@ -17,6 +17,28 @@ Blockly.JavaScript['create_element'] = function(block) {
   ];
 };
 
+Blockly.Blocks['query_selector'] = {
+  SELECTORS: ['body'],
+  init: function() {
+    var selectors = this.SELECTORS.map(function(sel) {
+      return [sel, sel];
+    });
+
+    this.setOutput(true, 'Element');
+    this.appendDummyInput().appendField('the')
+      .appendField(new Blockly.FieldDropdown(selectors), 'SELECTOR')
+      .appendField('element');
+  }
+};
+
+Blockly.JavaScript['query_selector'] = function(block) {
+  return [
+    "document.querySelector(" +
+    Blockly.JavaScript.quote_(block.getFieldValue('SELECTOR')) + ")",
+    Blockly.JavaScript.ORDER_ATOMIC
+  ];
+};
+
 Blockly.Blocks['body_element'] = {
   init: function() {
     this.setOutput(true, 'Element');

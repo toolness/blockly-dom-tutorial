@@ -42,7 +42,7 @@ aside {
   <xml id="toolbox" style="display: none">
     <block type="create_element"></block>
     <block type="text_node"></block>
-    <block type="body_element"></block>
+    <block type="query_selector"></block>
     <block type="append_element"></block>
     <block type="handle_event"></block>
     <block type="controls_if"></block>
@@ -101,6 +101,10 @@ function saveCurrentWorkspace() {
 // Initialization.
 
 $(function() {
+  Blockly.Blocks["query_selector"].SELECTORS = [
+    '#my-button',
+    '#output'
+  ];
   $('script[type="text/html"]').each(function() {
     var html = $.trim($(this).text());
     var pre = $('<pre data-lang="htmlmixed"></pre>')
