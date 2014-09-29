@@ -9,7 +9,7 @@
 
 aside {
   background: #f0f0f0;
-  padding: 1em;
+  padding: 4px 1em;
 }
 
 #rendering-holder iframe {
@@ -30,7 +30,7 @@ aside {
 <p>Our goal is to add the text "You clicked me!" to
   <code>#output</code> every time <code>#my-button</code> is clicked.
   This can be done with JavaScript.</p>
-<aside>Don't know what the <code>#</code> at the beginning of <code>#output</code> means? You should <a href="http://toolness.github.io/css-selector-game/" target="_blank">learn how CSS selectors work</a>!</aside>
+<aside><p>Don't know what the <code>#</code> at the beginning of <code>#output</code> means? You should <a href="http://toolness.github.io/css-selector-game/" target="_blank">learn how CSS selectors work</a>!</p></aside>
 <p>Internally, browsers see a page as a heirarchy of <em>nodes</em>&mdash;building blocks that make up a page. This heirarchy is sometimes called the <em>Document Object Model</em>, or DOM. JavaScript can access the DOM to react to <em>events</em> initiated by the user, such as clicks or taps, and it can manipulate the DOM in real-time by adding, changing, or removing nodes.</p>
 <p>One type of node is an <em>element</em>, which roughly corresponds to tags in an HTML page. For instance, a <code>p</code> element represents an opening <code>&lt;p&gt;</code> tag and its corresponding closing tag. Everything in between these two tags are referred to as <em>children</em> of the element.</p>
 <p>One such type of child is called a <em>text node</em>, which represents text inside an element.</p>
@@ -60,6 +60,12 @@ aside {
 <div id="rendering-holder"></div>
 
 <p>Now see if you can get the text "You clicked me!" to be added to the output every time you click the button labeled "Click me!".</p>
+
+<aside>
+  <h4>To Be Continued&hellip;</h4>
+  <p>What's here is intended to be the first "mission" in a series that gradually builds up programming and DOM concepts, eventually removing the Blockly scaffolding to allow learners to become proficient at JavaScript.</p>
+  <p>You can learn more about the motivation behind this experiment at the <a href="https://github.com/toolness/blockly-dom-tutorial#readme">README</a>.</p>
+</aside>
 
 <script src="vendor/jquery.js"></script>
 <script src="vendor/codemirror/codemirror.js"></script>
