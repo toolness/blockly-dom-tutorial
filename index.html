@@ -11,11 +11,15 @@ aside {
   background: #f0f0f0;
   padding: 1em;
 }
+
+#rendering-holder iframe {
+  width: 100%;
+}
 </style>
 <title>DOM Tutorial</title>
 <p>So you know the basics of HTML and CSS, but not Javascript?</p>
 <p>Suppose we have a webpage with the following HTML:</p>
-<script type="text/html">
+<script id="html" type="text/html">
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>My Page</title>
@@ -51,6 +55,16 @@ aside {
     <block type="math_number"></block>
   </xml>
 </div>
+
+<p>The above block-code can be expressed in JavaScript by adding the following to the bottom of our webpage:</p>
+
+<pre data-lang="htmlmixed" id="js"></pre>
+
+<p>And here's the final webpage, rendered in your browser:</p>
+
+<div id="rendering-holder"></div>
+
+<p>Now see if you can get a paragraph with the text "You clicked me!" to be added to the output every time you click the button labeled "Click me!".</p>
 
 <script src="vendor/jquery.js"></script>
 <script src="vendor/codemirror/codemirror.js"></script>
@@ -89,7 +103,9 @@ function saveCurrentWorkspace() {
 $(function() {
   $('script[type="text/html"]').each(function() {
     var html = $.trim($(this).text());
-    var pre = $('<pre data-lang="htmlmixed"></pre>').text(html);
+    var pre = $('<pre data-lang="htmlmixed"></pre>')
+      .attr('id', $(this).attr('id'))
+      .text(html);
     $(this).replaceWith(pre);
     CodeMirror.colorize(pre.get());
   });
@@ -101,5 +117,26 @@ $(function() {
 
   Blockly.addChangeListener(saveCurrentWorkspace);
   loadSavedWorkspace();
+
+  var lastScriptTag;
+
+  Blockly.addChangeListener(function() {
+    var scriptTag = '<script>\n' +
+                    Blockly.JavaScript.workspaceToCode() +
+                    '</' + 'script>';
+
+    if (scriptTag == lastScriptTag) return;
+    lastScriptTag = scriptTag;
+    CodeMirror.colorize($('#js').text(scriptTag).get());
+
+    var iframe = document.createElement('iframe');
+    var html = $('#html').text() + scriptTag;
+
+    $('#rendering-holder').empty().append(iframe);
+
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(html);
+    iframe.contentDocument.close();
+  });
 });
 </script>
