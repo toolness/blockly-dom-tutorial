@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="vendor/codemirror/codemirror.css" rel="stylesheet">
+<style>
+.blocklySvg {
+  width: 100%;
+  height: 500px;
+}
+</style>
+<title>DOM Tutorial</title>
+<p>So you know the basics of HTML and CSS, but not Javascript?</p>
+<xml id="toolbox" style="display: none">
+  <block type="create_element"></block>
+  <block type="text_node"></block>
+  <block type="body_element"></block>
+  <block type="append_element"></block>
+  <block type="handle_event"></block>
+  <block type="controls_if"></block>
+  <block type="variables_get"></block>
+  <block type="variables_set"></block>
+  <block type="text"></block>
+  <block type="text_join"></block>
+  <block type="logic_compare"></block>
+  <block type="logic_operation"></block>
+  <block type="math_number"></block>
+</xml>
+<script src="vendor/jquery.js"></script>
+<script src="vendor/codemirror/codemirror.js"></script>
+<script src="vendor/codemirror/xml.js"></script>
+<script src="vendor/codemirror/css.js"></script>
+<script src="vendor/codemirror/javascript.js"></script>
+<script src="vendor/codemirror/htmlmixed.js"></script>
+<script src="vendor/codemirror/runmode.js"></script>
+<script src="vendor/codemirror/colorize.js"></script>
+<script src="vendor/blockly/blockly_compressed.js"></script>
+<script src="vendor/blockly/blocks_compressed.js"></script>
+<script src="vendor/blockly/javascript_compressed.js"></script>
+<script src="vendor/blockly/en.js"></script>
+<script src="dom-blocks.js"></script>
+<script>
+// Workspace save/load functionality.
+
+var KEY_NAME = 'blockly_dom_tutorial_xml?' +
+               window.location.search.slice(1);
+
+function loadSavedWorkspace() {
+  var lastXML = window.sessionStorage[KEY_NAME];
+  if (lastXML) {
+    var xml = Blockly.Xml.textToDom(lastXML);
+    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+  }
+}
+
+function saveCurrentWorkspace() {
+  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+  window.sessionStorage[KEY_NAME] = Blockly.Xml.domToPrettyText(xml);
+}
+
+// Initialization.
+
+$(function() {
+  Blockly.inject(document.body, {
+    path: 'vendor/blockly/',
+    toolbox: document.getElementById('toolbox')
+  });
+
+  Blockly.addChangeListener(saveCurrentWorkspace);
+  loadSavedWorkspace();
+});
+</script>
