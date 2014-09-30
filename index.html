@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link href="vendor/codemirror/codemirror.css" rel="stylesheet">
+<link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet">
 <style>
 html {
   font-family: Georgia, serif;
@@ -37,6 +38,33 @@ aside {
 
 #rendering-holder iframe {
   width: 100%;
+}
+
+ul.toolbar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: right;
+}
+
+ul.toolbar li {
+  display: inline-block;
+}
+
+ul.toolbar li a, ul.toolbar li button {
+  display: inline-block;
+  background: #f0f0f0;
+  padding: 4px;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+ul.toolbar li a:hover, ul.toolbar li button:hover {
+  color: #FF2A68;
 }
 </style>
 <title>Changing Web Pages With JavaScript</title>
@@ -86,6 +114,10 @@ aside {
 
 <p>And here&rsquo;s the final webpage, rendered in your browser:</p>
 
+<ul class="toolbar">
+  <li><a href="#" target="_blank" id="data-url"><i class="fa fa-external-link"></i></a></li>
+  <li><button id="refresh"><i class="fa fa-refresh"></i></button></li>
+</ul>
 <div id="rendering-holder"></div>
 
 <p>Now see if you can get the text &ldquo;You clicked me!&rdquo; to be added to the output every time you click the button labeled &ldquo;Click me!&rdquo;.</p>
@@ -108,6 +140,7 @@ aside {
 <script src="vendor/blockly/blocks_compressed.js"></script>
 <script src="vendor/blockly/javascript_compressed.js"></script>
 <script src="vendor/blockly/en.js"></script>
+<script src="vendor/mdn-b64.js"></script>
 <script src="dom-blocks.js"></script>
 <script>
 // Workspace save/load functionality.
@@ -153,13 +186,12 @@ $(function() {
   loadSavedWorkspace();
 
   var lastScriptTag;
-
-  Blockly.addChangeListener(function() {
+  var rerender = function(force) {
     var scriptTag = '<script>\n' +
                     Blockly.JavaScript.workspaceToCode() +
                     '</' + 'script>';
 
-    if (scriptTag == lastScriptTag) return;
+    if (!force && scriptTag == lastScriptTag) return;
     lastScriptTag = scriptTag;
     CodeMirror.colorize($('#js').text(scriptTag).get());
 
@@ -171,6 +203,12 @@ $(function() {
     iframe.contentDocument.open();
     iframe.contentDocument.write(html);
     iframe.contentDocument.close();
-  });
+
+    $('#data-url').attr('href', 'data:text/html;base64,' +
+                        base64EncArr(strToUTF8Arr(html)));
+  };
+
+  Blockly.addChangeListener(rerender.bind(null, false));
+  $('#refresh').on('click', rerender.bind(null, true));
 });
 </script>
