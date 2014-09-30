@@ -3,6 +3,12 @@
 <link href="vendor/codemirror/codemirror.css" rel="stylesheet">
 <link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet">
 <style>
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 html {
   font-family: Georgia, serif;
   font-size: 18px;
@@ -46,25 +52,34 @@ ul.toolbar {
   margin: 0;
   width: 100%;
   text-align: right;
+  font-size: 0;
 }
 
 ul.toolbar li {
   display: inline-block;
+  vertical-align: bottom;
 }
 
 ul.toolbar li a, ul.toolbar li button {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #f0f0f0;
   padding: 4px;
   color: inherit;
-  border: none;
+  border-width: 0 0 0 1px;
+  border-color: white;
+  border-style: solid;
   cursor: pointer;
   font-size: 14px;
   font-family: inherit;
+  height: 28px;
+  width: 28px;
 }
 
 ul.toolbar li a:hover, ul.toolbar li button:hover {
   color: #FF2A68;
+  text-decoration: none;
 }
 </style>
 <title>Changing Web Pages With JavaScript</title>
