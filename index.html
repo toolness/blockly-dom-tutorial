@@ -90,10 +90,16 @@ ul.toolbar li a:hover, ul.toolbar li button:hover {
 <p>Suppose we have a webpage with the following HTML:</p>
 <script id="html" type="text/html">
 <!DOCTYPE html>
-<meta charset="utf-8">
-<title>My Page</title>
-<button id="my-button">Click me!</button>
-<div id="output"></div>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Page</title>
+  </head>
+  <body>
+    <button id="my-button">Click me!</button>
+    <div id="output"></div>
+  </body>
+</html>
 </script>
 <p>Our goal is to add the text &ldquo;You clicked me!&rdquo; to
   <code>#output</code> every time <code>#my-button</code> is clicked.
@@ -232,7 +238,10 @@ $(function() {
     CodeMirror.colorize($('#js').text(scriptTag).get());
 
     var iframe = document.createElement('iframe');
-    var html = $('#html').text() + scriptTag;
+    var html = $('#html').text().replace(
+      '</body>',
+      scriptTag + '</body>'
+    );
 
     $('#rendering-holder').empty().append(iframe);
 
