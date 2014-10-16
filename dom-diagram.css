@@ -1,7 +1,6 @@
 /* This is based on http://bl.ocks.org/mbostock/1093025. */
 
 .node rect {
-  cursor: pointer;
   fill: #fff;
   fill-opacity: .5;
   stroke: #3182bd;
