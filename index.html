@@ -138,6 +138,10 @@ ul.toolbar li a:hover, ul.toolbar li button:hover {
 </ul>
 <div id="rendering-holder"></div>
 
+<p>And here's the DOM of the above webpage:</p>
+
+<div id="dynamic-diagram"></div>
+
 <p>Now see if you can get the text &ldquo;You clicked me!&rdquo; to be added to the output every time you click the button labeled &ldquo;Click me!&rdquo;.</p>
 
 <aside>
@@ -224,6 +228,7 @@ $(function() {
 
     if (!force && scriptTag == lastScriptTag) return;
     lastScriptTag = scriptTag;
+    $('#dynamic-diagram').empty();
     CodeMirror.colorize($('#js').text(scriptTag).get());
 
     var iframe = document.createElement('iframe');
@@ -231,12 +236,19 @@ $(function() {
 
     $('#rendering-holder').empty().append(iframe);
 
-    iframe.contentDocument.open();
-    iframe.contentDocument.write(html);
-    iframe.contentDocument.close();
+    var doc = iframe.contentDocument;
+    doc.open();
+    doc.write(html);
+    doc.close();
 
     $('#data-url').attr('href', 'data:text/html;base64,' +
                         base64EncArr(strToUTF8Arr(html)));
+
+    var updateDiagram = showDomDiagram(domToDiagram(doc.documentElement),
+                                       '#dynamic-diagram');
+    iframe.contentWindow.addEventListener('click', function() {
+      updateDiagram(domToDiagram(doc.documentElement));
+    }, false);
   };
 
   Blockly.addChangeListener(rerender.bind(null, false));

@@ -1,12 +1,16 @@
 // This is based on http://bl.ocks.org/mbostock/1093025.
 
 function domToDiagram(el, state) {
-  state = state || {latestId: 0};
-  if (!el._id) el._id = ++state.latestId;
-  var diagram = {
-    id: el._id,
-    children: []
-  };
+  var diagram = el._diagram || {};
+  if (!state) {
+    if (!diagram.state) diagram.state = {latestId: 0};
+    state = diagram.state;
+  }
+  if (!el._diagram) {
+    el._diagram = diagram;
+    diagram.id = ++state.latestId;
+  }
+  diagram.children = [];
   if (el.nodeType == el.TEXT_NODE) {
     diagram.type = 'text';
     diagram.name = "Text node: " + JSON.stringify(el.nodeValue);
@@ -55,11 +59,11 @@ function showDomDiagram(root, parent, minHeight) {
 
     var height = Math.max(minHeight || 0, nodes.length * barHeight + margin.top + margin.bottom);
 
-    d3.select("svg").transition()
+    d3.select(parent + ' svg').transition()
         .duration(duration)
         .attr("height", height);
 
-    d3.select(self.frameElement).transition()
+    d3.select(parent).transition()
         .duration(duration)
         .style("height", height + "px");
 
