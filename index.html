@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 <link href="vendor/codemirror/codemirror.css" rel="stylesheet">
 <link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="dom-diagram.css" rel="stylesheet">
 <style>
 * {
   -moz-box-sizing: border-box;
@@ -102,6 +103,8 @@ ul.toolbar li a:hover, ul.toolbar li button:hover {
 <p>Internally, browsers see a page as a heirarchy of <em>nodes</em>&mdash;building blocks that make up a page. This heirarchy is sometimes called the <em>Document Object Model</em>, or DOM. JavaScript can access the DOM to react to <em>events</em> initiated by the user, such as clicks or taps, and it can manipulate the DOM in real-time by adding, changing, or removing nodes.</p>
 <p>One type of node is an <em>element</em>, which roughly corresponds to tags in an HTML page. For instance, a <code>p</code> element represents an opening <code>&lt;p&gt;</code> tag and its corresponding closing tag. Everything in between these two tags are referred to as <em>children</em> of the element.</p>
 <p>One such type of child is called a <em>text node</em>, which represents text inside an element.</p>
+<p>Here's what the DOM of the HTML at the top of this page looks like:</p>
+<div id="static-diagram"></div>
 <aside>
 <p>If you use Firefox, you can see a webpage's DOM heirarchy visualized using the built-in <a href="https://developer.mozilla.org/en-US/docs/Tools/3D_View" target="_blank">3D View</a>, which is pretty awesome.</p>
 </aside>
@@ -156,7 +159,9 @@ ul.toolbar li a:hover, ul.toolbar li button:hover {
 <script src="vendor/blockly/javascript_compressed.js"></script>
 <script src="vendor/blockly/en.js"></script>
 <script src="vendor/mdn-b64.js"></script>
+<script src="vendor/d3.v3.min.js"></script>
 <script src="dom-blocks.js"></script>
+<script src="dom-diagram.js"></script>
 <script>
 // Workspace save/load functionality.
 
@@ -177,6 +182,17 @@ function saveCurrentWorkspace() {
 }
 
 // Initialization.
+
+function renderStaticDiagram() {
+  var iframe = document.createElement('iframe');
+  $('body').append(iframe);
+  var doc = iframe.contentDocument;
+  doc.open();
+  doc.write($('#html').text());
+  doc.close();
+  showDomDiagram(domToDiagram(doc.documentElement), '#static-diagram');
+  $(iframe).remove();
+};
 
 $(function() {
   Blockly.Blocks["query_selector"].SELECTORS = [
@@ -225,5 +241,7 @@ $(function() {
 
   Blockly.addChangeListener(rerender.bind(null, false));
   $('#refresh').on('click', rerender.bind(null, true));
+
+  renderStaticDiagram();
 });
 </script>
