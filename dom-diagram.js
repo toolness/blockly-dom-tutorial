@@ -13,7 +13,10 @@ function domToDiagram(el, state) {
   diagram.children = [];
   if (el.nodeType == el.TEXT_NODE) {
     diagram.type = 'text';
-    diagram.name = "Text node: " + JSON.stringify(el.nodeValue);
+    var val = JSON.stringify(el.nodeValue);
+    if (val.length > 30)
+      val = val.slice(0, 29) + '\u2026' + '"';
+    diagram.name = "Text node: " + val;
   } else if (el.nodeType == el.ELEMENT_NODE) {
     diagram.type = 'element';
     diagram.name = "Element: " + el.nodeName.toLowerCase() +
