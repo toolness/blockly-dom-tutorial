@@ -204,6 +204,16 @@ function renderStaticDiagram() {
   $(iframe).remove();
 };
 
+function renderDynamicDiagram(iframe, selector) {
+  var doc = iframe.contentDocument;
+  $(selector).empty();
+  var updateDiagram = showDomDiagram(domToDiagram(doc.documentElement),
+                                     selector);
+  iframe.contentWindow.addEventListener('click', function() {
+    updateDiagram(domToDiagram(doc.documentElement));
+  }, false);
+}
+
 $(function() {
   Blockly.Blocks["query_selector"].SELECTORS = [
     '#my-button',
@@ -234,7 +244,6 @@ $(function() {
 
     if (!force && scriptTag == lastScriptTag) return;
     lastScriptTag = scriptTag;
-    $('#dynamic-diagram').empty();
     CodeMirror.colorize($('#js').text(scriptTag).get());
 
     var iframe = document.createElement('iframe');
@@ -252,12 +261,7 @@ $(function() {
 
     $('#data-url').attr('href', 'data:text/html;base64,' +
                         base64EncArr(strToUTF8Arr(html)));
-
-    var updateDiagram = showDomDiagram(domToDiagram(doc.documentElement),
-                                       '#dynamic-diagram');
-    iframe.contentWindow.addEventListener('click', function() {
-      updateDiagram(domToDiagram(doc.documentElement));
-    }, false);
+    renderDynamicDiagram(iframe, '#dynamic-diagram');
   };
 
   Blockly.addChangeListener(rerender.bind(null, false));
