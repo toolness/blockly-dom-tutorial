@@ -175,3 +175,20 @@ Blockly.JavaScript['handle_event'] = function(block) {
     branch + '});\n'
   ];
 };
+
+Blockly.Blocks['input_value'] = {
+  init: function() {
+    this.setOutput(true, 'String');
+    this.appendValueInput('ELEMENT').setCheck('Element')
+      .appendField('the input value of');
+  }
+};
+
+Blockly.JavaScript['input_value'] = function(block) {
+  return [
+    Blockly.JavaScript.valueToCode(
+      block, 'ELEMENT', Blockly.JavaScript.ORDER_ATOMIC
+    ) + '.value',
+    Blockly.JavaScript.ORDER_ATOMIC
+  ];
+};
