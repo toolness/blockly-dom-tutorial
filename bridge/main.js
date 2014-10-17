@@ -2,6 +2,7 @@
   // Workspace save/load functionality.
 
   var KEY_NAME = 'xml';
+  var noRemoteReload = /[&?]noRemoteReload=on/.test(window.location.search);
 
   // This can be used by developers from the debug console.
   window.getWorkspaceXml = function() {
@@ -28,23 +29,32 @@
 
   // Initialization.
 
+  function storeScript() {
+    JSONStorage.set('script', Blockly.JavaScript.workspaceToCode());
+  }
+
   function startup() {
     $('#view-source').click(function() {
       var js = Blockly.JavaScript.workspaceToCode();
       $('#source').modal().find('textarea').val(js);
     });
 
-    $('#play').click(function() {
-      JSONStorage.set('script', Blockly.JavaScript.workspaceToCode());
-      JSONStorage.set('reload', true);
-    });
+    if (noRemoteReload) {
+      Blockly.addChangeListener(storeScript);
+      storeScript();
+      $('#play').hide();
+    } else {
+      $('#play').click(function() {
+        if (noRemoteReload) return;
+        JSONStorage.set('script', Blockly.JavaScript.workspaceToCode());
+        JSONStorage.set('reload', true);
+      }).click();
 
-    $(window).on('keydown', function(event) {
-      if (event.which == 32 && event.ctrlKey)
-        return $('#play').click();
-    });
-
-    $('#play').click();
+      $(window).on('keydown', function(event) {
+        if (event.which == 32 && event.ctrlKey)
+          return $('#play').click();
+      });
+    }
   }
 
   $(function() {

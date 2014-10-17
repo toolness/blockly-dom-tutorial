@@ -49,6 +49,18 @@ $(function() {
     }
   }, 100);
 
+  window.addEventListener('message', function(event) {
+    if (event.source !== window.parent) return;
+
+    var msg = JSON.parse(event.data);
+
+    if (msg.type == 'init') {
+      if (msg.noRemoteReload) {
+        $('a[target="blockly_bridge"]').attr('href', './?noRemoteReload=on');
+      }
+    }
+  }, false);
+
   window.parent.postMessage(JSON.stringify({
     type: 'init',
     script: JSONStorage.get('script'),

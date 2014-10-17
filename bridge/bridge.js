@@ -28,6 +28,15 @@
       if (msg.type == 'reload') {
         window.location.reload();
       } else if (msg.type == 'init') {
+        var response = {
+          type: 'init'
+        };
+        if (window.location.hostname == 'null.jsbin.com') {
+          // Arg, window.location.reload() doesn't work in jsbin's
+          // output pane, so the Blockly editor can't remotely reload us.
+          response.noRemoteReload = true;
+        }
+        iframe.contentWindow.postMessage(JSON.stringify(response), '*');
         var script = document.createElement('script');
         script.appendChild(document.createTextNode(msg.script));
         document.body.appendChild(script);
