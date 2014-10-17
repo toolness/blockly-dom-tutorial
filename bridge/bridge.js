@@ -1,5 +1,7 @@
 (function() {
   var ME_REGEXP = /^(.+\/)bridge\.js$/;
+  var DEFAULT_STYLE = "position: absolute; top: 0; left: 0; " +
+                      "visibility: hidden; overflow: hidden";
   var baseURL;
 
   // On IE9, the latest entry in document.scripts isn't necessarily
@@ -30,9 +32,13 @@
         script.appendChild(document.createTextNode(msg.script));
         document.body.appendChild(script);
       }
+
+      if (msg.style) {
+        iframe.setAttribute('style', msg.style);
+      }
     });
 
     document.body.appendChild(iframe);
-    iframe.style.display = "none";
+    iframe.setAttribute('style', DEFAULT_STYLE);
   }, false);
 })();
