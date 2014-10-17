@@ -5,7 +5,10 @@ Blockly.Blocks['create_element'] = {
       .appendField(new Blockly.FieldDropdown([
         ['<p>', 'p'],
         ['<span>', 'span'],
-        ['<div>', 'div']
+        ['<div>', 'div'],
+        ['<ul>', 'ul'],
+        ['<ol>', 'ol'],
+        ['<li>', 'li']
       ]), 'TAG').appendField('element');
   }
 };
