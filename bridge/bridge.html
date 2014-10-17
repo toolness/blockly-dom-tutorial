@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Bridge</title>
+<p>You should never see this text, as this page is only ever loaded in an invisible iframe.</p>
+<script src="storage.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  setInterval(function() {
+    if (JSONStorage.get('reload')) {
+      JSONStorage.remove('reload');
+      window.parent.postMessage(JSON.stringify({type: 'reload'}), '*');
+    }
+  }, 100);
+
+  window.parent.postMessage(JSON.stringify({
+    type: 'init',
+    script: JSONStorage.get('script')
+  }), "*");
+}, false);
+</script>

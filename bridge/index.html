@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../vendor/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
+<style>
+html, body {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#blockly {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.blocklySvg {
+  height: 100%;
+  width: 100%;
+}
+
+#play {
+  background-color: green;
+  color: white;
+}
+
+#play:hover {
+  background-color: limegreen;
+}
+
+ul.toolbar {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+#source textarea {
+  font-family: monospace;
+  font-size: 12px;
+}
+</style>
+<body>
+  <div id="blockly">
+    <ul class="toolbar list-unstyled list-inline">
+      <li><a href="https://github.com/toolness/blockly-dom-tutorial" class="btn btn-default" target="_blank" title="View this project's GitHub repository"><i class="fa fa-github"></i></a></li>
+      <li><button id="view-source" class="btn btn-default" title="View the JS translation">JS</button></li>
+      <li><button id="play" class="btn" title="Play (Ctrl+space)"><i class="fa fa-play"></i></button></li>
+    </ul>
+    <xml id="toolbox" style="display: none">
+        <category name="Logic">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+            <block type="logic_negate"></block>
+            <block type="logic_boolean"></block>
+            <block type="logic_null"></block>
+            <block type="logic_ternary"></block>
+        </category>
+        <category name="Loops">
+            <block type="controls_repeat_ext">
+                <value name="TIMES">
+                    <block type="math_number">
+                        <field name="NUM">10</field>
+                    </block>
+                </value>
+            </block>
+            <block type="controls_whileUntil"></block>
+            <block type="controls_for">
+                <value name="FROM">
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+                <value name="TO">
+                    <block type="math_number">
+                        <field name="NUM">10</field>
+                    </block>
+                </value>
+                <value name="BY">
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+            </block>
+            <block type="controls_forEach"></block>
+            <block type="controls_flow_statements"></block>
+        </category>
+        <category name="Math">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+            <block type="math_single"></block>
+            <block type="math_trig"></block>
+            <block type="math_constant"></block>
+            <block type="math_number_property"></block>
+            <block type="math_change">
+                <value name="DELTA">
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+            </block>
+            <block type="math_round"></block>
+            <block type="math_on_list"></block>
+            <block type="math_modulo"></block>
+            <block type="math_constrain">
+                <value name="LOW">
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+                <value name="HIGH">
+                    <block type="math_number">
+                        <field name="NUM">100</field>
+                    </block>
+                </value>
+            </block>
+            <block type="math_random_int">
+                <value name="FROM">
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+                <value name="TO">
+                    <block type="math_number">
+                        <field name="NUM">100</field>
+                    </block>
+                </value>
+            </block>
+            <block type="math_random_float"></block>
+        </category>
+        <category name="Text">
+            <block type="text"></block>
+            <block type="text_join"></block>
+            <block type="text_append">
+                <value name="TEXT">
+                    <block type="text"></block>
+                </value>
+            </block>
+            <block type="text_length"></block>
+            <block type="text_isEmpty"></block>
+            <block type="text_indexOf">
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR">text</field>
+                    </block>
+                </value>
+            </block>
+            <block type="text_charAt">
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR">text</field>
+                    </block>
+                </value>
+            </block>
+            <block type="text_getSubstring">
+                <value name="STRING">
+                    <block type="variables_get">
+                        <field name="VAR">text</field>
+                    </block>
+                </value>
+            </block>
+            <block type="text_changeCase"></block>
+            <block type="text_trim"></block>
+            <block type="text_print"></block>
+            <block type="text_prompt_ext">
+                <value name="TEXT">
+                    <block type="text"></block>
+                </value>
+            </block>
+        </category>
+        <category name="Lists">
+            <block type="lists_create_empty"></block>
+            <block type="lists_create_with"></block>
+            <block type="lists_repeat">
+                <value name="NUM">
+                    <block type="math_number">
+                        <field name="NUM">5</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_length"></block>
+            <block type="lists_isEmpty"></block>
+            <block type="lists_indexOf">
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR">list</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_getIndex">
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR">list</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_setIndex">
+                <value name="LIST">
+                    <block type="variables_get">
+                        <field name="VAR">list</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_getSublist">
+                <value name="LIST">
+                    <block type="variables_get">
+                        <field name="VAR">list</field>
+                    </block>
+                </value>
+            </block>
+        </category>
+        <category name="Colour">
+            <block type="colour_picker"></block>
+            <block type="colour_random"></block>
+            <block type="colour_rgb">
+                <value name="RED">
+                    <block type="math_number">
+                        <field name="NUM">100</field>
+                    </block>
+                </value>
+                <value name="GREEN">
+                    <block type="math_number">
+                        <field name="NUM">50</field>
+                    </block>
+                </value>
+                <value name="BLUE">
+                    <block type="math_number">
+                        <field name="NUM">0</field>
+                    </block>
+                </value>
+            </block>
+            <block type="colour_blend">
+                <value name="COLOUR1">
+                    <block type="colour_picker">
+                        <field name="COLOUR">#ff0000</field>
+                    </block>
+                </value>
+                <value name="COLOUR2">
+                    <block type="colour_picker">
+                        <field name="COLOUR">#3333ff</field>
+                    </block>
+                </value>
+                <value name="RATIO">
+                    <block type="math_number">
+                        <field name="NUM">0.5</field>
+                    </block>
+                </value>
+            </block>
+        </category>
+        <category name="Variables" custom="VARIABLE"></category>
+        <category name="Functions" custom="PROCEDURE"></category>
+        <category name="DOM">
+          <block type="create_element"></block>
+          <block type="query_selector"></block>
+          <block type="append_element"></block>
+          <block type="text_node"></block>
+          <block type="handle_event"></block>
+        </category>
+    </xml>
+  </div>
+  <div class="modal fade" id="source">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title">JS Source Code</h4>
+        </div>
+        <div class="modal-body">
+          <p>Here is the JS source code for your program.</p>
+          <textarea class="form-control" rows="10" spellcheck="false"></textarea>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script src="../vendor/blockly/blockly_compressed.js"></script>
+  <script src="../vendor/blockly/blocks_compressed.js"></script>
+  <script src="../vendor/blockly/javascript_compressed.js"></script>
+  <script src="../vendor/blockly/en.js"></script>
+  <script src="../vendor/jquery.js"></script>
+  <script src="../dom-blocks.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="storage.js"></script>
+  <script src="main.js"></script>
+</body>
