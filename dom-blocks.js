@@ -4,6 +4,7 @@ Blockly.Blocks['create_element'] = {
     this.appendDummyInput().appendField('a new')
       .appendField(new Blockly.FieldDropdown([
         ['<p>', 'p'],
+        ['<span>', 'span'],
         ['<div>', 'div']
       ]), 'TAG').appendField('element');
   }
