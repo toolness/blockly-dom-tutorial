@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href="../vendor/codemirror/codemirror.css" rel="stylesheet">
+<link href="../vendor/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="../styles.css" rel="stylesheet">
+<title>Blockly Bridge Instructions</title>
+<a href="https://github.com/toolness/blockly-dom-tutorial"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<h1>Blockly Bridge Instructions</h1>
+<p>
+  The <em>Blockly Bridge</em> allows you to power webpages with JavaScript
+  without needing to deal with that language&rsquo;s complex syntax up-front. It
+  assumes familiarity with HTML and CSS, but not JS.
+</p>
+<p>
+  To use it:
+</p>
+<ol>
+  <li><p>
+    Go through the <a href="../">DOM Tutorial</a> if you haven&rsquo;t already.
+  </p></li>
+  <li>
+    <p>Add the following script tag to the end of any webpage:</p>
+    <pre data-lang="htmlmixed" data-baseurlify>&lt;script src="{{{baseURL}}}bridge/bridge.js"&gt;&lt;/script&gt;</pre>
+    <p>Note that the webpage can be edited locally, or via online editors like
+    <a href="https://thimble.webmaker.org/">Thimble</a>,
+    <a href="http://jsbin.com/">JS Bin</a>, or
+    <a href="http://c9.io">Cloud9</a>.</p>
+  </li>
+  <li><p>
+    Load your webpage. You should see a link at the bottom-left of the page
+    titled <em>Open Blockly Editor</em>. Click on it.
+  </p></li>
+  <li><p>
+    Drag puzzle pieces from the gray palette on the left into the
+    workspace on the right. When you&rsquo;ve constructed something, reload
+    your webpage to load it with the code from the editor. Repeat this
+    cycle until you&rsquo;ve created something you like.
+  </p></li>
+  <li><p>
+    <strong>You can&rsquo;t share your webpage just yet!</strong> To share it, you
+    need to click the <em>JS</em> button at the top-right
+    of the editor to view the JavaScript translation of your Blockly
+    code. Select it and copy it to your clipboard.
+  </p></li>
+  <li><p>
+    Replace the script tag you added to your webpage in step 2 with
+    the code in your clipboard. <em>Now</em> you can share your webpage.
+  </p></li>
+</ol>
+<aside>
+  <h2>Yo, this is a prototype!</h2>
+  <p>
+    That means that there are bugs and annoying limitations, such as:
+  </p>
+  <ul>
+    <li>If the JavaScript translation of your Blockly code crashes, there&rsquo;s currently no easy way to see where it exploded or why.</li>
+    <li>If you have multiple webpages using this bridge open in your browser at the same time, <em>really</em> weird things will happen.</li>
+    <li>There&rsquo;s currently no way to share the Blockly code for your program&mdash;only its JavaScript translation.</li>
+  </ul>
+</aside>
+<script src="../vendor/jquery.js"></script>
+<script src="vendor/mustache.js"></script>
+<script src="../vendor/codemirror/codemirror.js"></script>
+<script src="../vendor/codemirror/xml.js"></script>
+<script src="../vendor/codemirror/css.js"></script>
+<script src="../vendor/codemirror/javascript.js"></script>
+<script src="../vendor/codemirror/htmlmixed.js"></script>
+<script src="../vendor/codemirror/runmode.js"></script>
+<script src="../vendor/codemirror/colorize.js"></script>
+<script>
+var baseProtocol = /\.github\.io$/.test(window.location.host)
+                   ? 'https'
+                   : window.location.protocol;
+var baseURL = (
+  baseProtocol + '//' + window.location.host +
+  window.location.pathname
+).match(/^(.+\/)bridge\/.*$/)[1];
+
+$(function() {
+  $('[data-baseurlify]').each(function() {
+    $(this).text(Mustache.render($(this).text(), {baseURL: baseURL}));
+  });
+
+  CodeMirror.colorize();
+});
+</script>

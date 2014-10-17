@@ -1,0 +1,33 @@
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+body {
+  padding: 10px 20px 20px 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+a {
+  color: #FF2A68;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+aside {
+  background: #f0f0f0;
+  padding: 4px 1em;
+}
