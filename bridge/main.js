@@ -46,7 +46,7 @@
     } else {
       $('#play').click(function() {
         if (noRemoteReload) return;
-        JSONStorage.set('script', Blockly.JavaScript.workspaceToCode());
+        storeScript();
         JSONStorage.set('reload', true);
       }).click();
 
