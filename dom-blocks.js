@@ -130,6 +130,38 @@ Blockly.JavaScript['set_css_colour'] = function(block) {
          colour + ';\n';
 };
 
+Blockly.Blocks['set_content'] = {
+  init: function() {
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this
+      .appendDummyInput().appendField('set the')
+      .appendField(new Blockly.FieldDropdown([
+        ['text', 'textContent'],
+        ['html', 'innerHTML']
+      ]), 'TYPE');
+    this
+      .appendValueInput('ELEMENT').setCheck('Element')
+      .appendField('of');
+    this
+      .appendValueInput('VALUE').setCheck('String')
+      .appendField('to');
+  }
+};
+
+Blockly.JavaScript['set_content'] = function(block) {
+  var element = Blockly.JavaScript.valueToCode(
+    block, 'ELEMENT',
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  var value = Blockly.JavaScript.valueToCode(
+    block, 'VALUE',
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return element + '.' + block.getFieldValue('TYPE') + ' = ' +
+         value + ';\n';
+};
+
 Blockly.Blocks['text_node'] = {
   init: function() {
     this.appendValueInput('TEXT').setCheck('String')
