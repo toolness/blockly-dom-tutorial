@@ -33,13 +33,20 @@
     JSONStorage.set('script', Blockly.JavaScript.workspaceToCode());
   }
 
-  function startup() {
+  $(function() {
+    Blockly.inject($('#blockly')[0], {
+      path: '../vendor/blockly/',
+      toolbox: $('#toolbox')[0]
+    });
+
+    Blockly.addChangeListener(saveCurrentWorkspace);
+    Blockly.addChangeListener(storeScript);
+    loadSavedWorkspace();
+
     $('#view-source').click(function() {
       var js = Blockly.JavaScript.workspaceToCode();
       $('#source').modal().find('textarea').val(js);
     });
-
-    Blockly.addChangeListener(storeScript);
 
     if (noRemoteReload) {
       storeScript();
@@ -56,17 +63,5 @@
           return $('#play').click();
       });
     }
-  }
-
-  $(function() {
-    Blockly.inject($('#blockly')[0], {
-      path: '../vendor/blockly/',
-      toolbox: $('#toolbox')[0]
-    });
-
-    Blockly.addChangeListener(saveCurrentWorkspace);
-    loadSavedWorkspace();
-
-    startup();
   });
 })();
