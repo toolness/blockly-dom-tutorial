@@ -39,8 +39,9 @@
       $('#source').modal().find('textarea').val(js);
     });
 
+    Blockly.addChangeListener(storeScript);
+
     if (noRemoteReload) {
-      Blockly.addChangeListener(storeScript);
       storeScript();
       $('#play').hide();
     } else {
