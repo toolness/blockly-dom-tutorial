@@ -40,6 +40,22 @@ Blockly.JavaScript['query_selector'] = function(block) {
   ];
 };
 
+Blockly.Blocks['get_element_by_id'] = {
+  init: function() {
+    this.setOutput(true, 'Element');
+    this.appendDummyInput().appendField('the element with id')
+      .appendField(new Blockly.FieldTextInput('foo'), 'ID');
+  }
+};
+
+Blockly.JavaScript['get_element_by_id'] = function(block) {
+  return [
+    "document.getElementById(" +
+    Blockly.JavaScript.quote_(block.getFieldValue('ID')) + ")",
+    Blockly.JavaScript.ORDER_ATOMIC
+  ];
+};
+
 Blockly.Blocks['body_element'] = {
   init: function() {
     this.setOutput(true, 'Element');
