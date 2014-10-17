@@ -98,6 +98,38 @@ Blockly.JavaScript['append_element'] = function(block) {
   return parent + '.appendChild(' + child + ');\n';
 };
 
+Blockly.Blocks['set_css_colour'] = {
+  init: function() {
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this
+      .appendDummyInput().appendField('set the')
+      .appendField(new Blockly.FieldDropdown([
+        ['background', 'backgroundColor'],
+        ['color', 'color']
+      ]), 'PROPERTY');
+    this
+      .appendValueInput('ELEMENT').setCheck('Element')
+      .appendField('of');
+    this
+      .appendValueInput('COLOUR').setCheck('Colour')
+      .appendField('to');
+  }
+};
+
+Blockly.JavaScript['set_css_colour'] = function(block) {
+  var element = Blockly.JavaScript.valueToCode(
+    block, 'ELEMENT',
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  var colour = Blockly.JavaScript.valueToCode(
+    block, 'COLOUR',
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return element + '.style.' + block.getFieldValue('PROPERTY') + ' = ' +
+         colour + ';\n';
+};
+
 Blockly.Blocks['text_node'] = {
   init: function() {
     this.appendValueInput('TEXT').setCheck('String')
