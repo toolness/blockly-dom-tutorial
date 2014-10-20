@@ -58,7 +58,6 @@
     if (currScript !== lastStoredScript) {
       lastStoredScript = currScript;
       JSONStorage.set('script', currScript);
-      JSONStorage.set('blockly_source', getWorkspaceCompressed());
     }
   }
 

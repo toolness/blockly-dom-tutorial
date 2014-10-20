@@ -96,7 +96,6 @@ $(function() {
   window.parent.postMessage(JSON.stringify({
     type: 'init',
     script: startScript,
-    blocklySource: JSONStorage.get('blockly_source'),
     style: makeStyle()
   }), "*");
 

@@ -33,9 +33,7 @@
         var response = {
           type: 'init',
           usingBlocklyCode: !!sessionStorage.USE_BLOCKLY_CODE,
-          blocklySource: sessionStorage.BLOCKLY_SOURCE ||
-                         window.BLOCKLY_SOURCE ||
-                         null
+          blocklySource: window.BLOCKLY_SOURCE || null
         };
         if (window.location.hostname == 'null.jsbin.com') {
           // Arg, window.location.reload() doesn't work in jsbin's
@@ -43,8 +41,6 @@
           response.noRemoteReload = true;
         }
         iframe.contentWindow.postMessage(JSON.stringify(response), '*');
-        if (msg.blocklySource)
-          sessionStorage.BLOCKLY_SOURCE = msg.blocklySource;
         if (sessionStorage.USE_BLOCKLY_CODE) {
           console.log('Injecting script.');
           var script = document.createElement('script');
