@@ -45,6 +45,16 @@
 
     $('#view-source').click(function() {
       var js = Blockly.JavaScript.workspaceToCode();
+      var dom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+      var compressed = B64Gzip.compress(Blockly.Xml.domToText(dom));
+
+      js += '\n' + [
+        '// Below is information about the Blockly blocks that',
+        '// made up your program. It is not required for your',
+        '// webpage to work, and you can remove it if you',
+        '// don\'t care about others remixing your work.'
+      ].join('\n') + '\nvar BLOCKLY_SOURCE = "' + compressed + '";';
+
       $('#source').modal().find('textarea').val(js);
     });
 
