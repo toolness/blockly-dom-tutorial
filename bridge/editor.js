@@ -37,8 +37,12 @@
 
     var lastXML = JSONStorage.get(KEY_NAME);
     if (lastXML) {
-      var xml = Blockly.Xml.textToDom(lastXML);
-      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+      try {
+        var xml = Blockly.Xml.textToDom(lastXML);
+        Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+      } catch (e) {
+        Blockly.mainWorkspace.clear();
+      }
     }
   }
 
