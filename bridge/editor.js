@@ -62,6 +62,22 @@
     }
   }
 
+  function generateViewSourceCode() {
+    var js = Blockly.JavaScript.workspaceToCode();
+
+    if ($('#include-blockly-source')[0].checked) {
+      js = 'if (!sessionStorage.USE_BLOCKLY_CODE) {\n' + js + '}\n' + [
+        '// Below is information about the Blockly blocks that',
+        '// made up your program. It is not required for your',
+        '// webpage to work, and you can remove it if you',
+        '// don\'t care about others remixing your work.'
+      ].join('\n') + '\nvar BLOCKLY_SOURCE = "' +
+                     getWorkspaceCompressed() + '";';
+    }
+
+    $('#source textarea').val(js);
+  }
+
   $(function() {
     Blockly.inject($('#blockly')[0], {
       path: '../vendor/blockly/',
@@ -73,18 +89,11 @@
     loadSavedWorkspace();
 
     $('#view-source').click(function() {
-      var js = Blockly.JavaScript.workspaceToCode();
-      var compressed = getWorkspaceCompressed();
-
-      js = 'if (!sessionStorage.USE_BLOCKLY_CODE) {\n' + js + '}\n' + [
-        '// Below is information about the Blockly blocks that',
-        '// made up your program. It is not required for your',
-        '// webpage to work, and you can remove it if you',
-        '// don\'t care about others remixing your work.'
-      ].join('\n') + '\nvar BLOCKLY_SOURCE = "' + compressed + '";';
-
-      $('#source').modal().find('textarea').val(js);
+      generateViewSourceCode();
+      $('#source').modal();
     });
+
+    $('#include-blockly-source').change(generateViewSourceCode);
 
     if (noRemoteReload) {
       storeScript();
