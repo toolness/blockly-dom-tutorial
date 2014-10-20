@@ -43,8 +43,13 @@ function makeStyle() {
 
 $(function() {
   var editorLink = $('a[target="blockly_bridge_editor"]');
+  var baseEditorHref = editorLink.attr('href');
 
   setInterval(function() {
+    if (JSONStorage.get('editor_active')) {
+      JSONStorage.remove('editor_active');
+      window.parent.postMessage(JSON.stringify({type: 'editor_active'}), '*');
+    }
     if (JSONStorage.get('reload')) {
       JSONStorage.remove('reload');
       window.parent.postMessage(JSON.stringify({type: 'reload'}), '*');
@@ -57,16 +62,19 @@ $(function() {
     var msg = JSON.parse(event.data);
 
     if (msg.type == 'init') {
-      if (msg.noRemoteReload) {
-        editorLink.attr('href', editorLink.attr('href') +
-                                '?noRemoteReload=on');
-      }
+      var params = {};
+      if (msg.blocklySource)
+        params.blocklySource = msg.blocklySource;
+      if (msg.noRemoteReload)
+        params.noRemoteReload = 'on';
+      editorLink.attr('href', baseEditorHref + '?' + $.param(params));
     }
   }, false);
 
   window.parent.postMessage(JSON.stringify({
     type: 'init',
     script: JSONStorage.get('script'),
+    blocklySource: JSONStorage.get('blockly_source'),
     style: makeStyle()
   }), "*");
 

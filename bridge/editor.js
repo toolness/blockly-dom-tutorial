@@ -10,12 +10,31 @@
     return Blockly.Xml.domToPrettyText(xml);    
   };
 
+  function getWorkspaceCompressed() {
+    var dom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    return B64Gzip.compress(Blockly.Xml.domToText(dom));
+  }
+
   function getCurrentWorkspaceXml() {
     var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
     return Blockly.Xml.domToText(xml);
   }
 
   function loadSavedWorkspace() {
+    var blocklySourceMatch = window.location.search
+      .match(/[&?]blocklySource=([A-Za-z0-9._]+)/);
+
+    if (blocklySourceMatch) {
+      var blocklySource = null;
+      try {
+        blocklySource = B64Gzip.decompress(blocklySourceMatch[1]);
+      } catch (e) {}
+      if (blocklySource) {
+        JSONStorage.set(KEY_NAME, blocklySource);
+        window.location = noRemoteReload ? '?noRemoteReload=on' : '?';
+      }
+    }
+
     var lastXML = JSONStorage.get(KEY_NAME);
     if (lastXML) {
       var xml = Blockly.Xml.textToDom(lastXML);
@@ -29,8 +48,18 @@
 
   // Initialization.
 
+  var lastStoredScript = null;
+
   function storeScript() {
-    JSONStorage.set('script', Blockly.JavaScript.workspaceToCode());
+    JSONStorage.set('editor_active', true);
+
+    var currScript = Blockly.JavaScript.workspaceToCode();
+
+    if (currScript !== lastStoredScript) {
+      lastStoredScript = currScript;
+      JSONStorage.set('script', currScript);
+      JSONStorage.set('blockly_source', getWorkspaceCompressed());
+    }
   }
 
   $(function() {
@@ -45,10 +74,9 @@
 
     $('#view-source').click(function() {
       var js = Blockly.JavaScript.workspaceToCode();
-      var dom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-      var compressed = B64Gzip.compress(Blockly.Xml.domToText(dom));
+      var compressed = getWorkspaceCompressed();
 
-      js += '\n' + [
+      js = 'if (!sessionStorage.USE_BLOCKLY_CODE) {\n' + js + '}\n' + [
         '// Below is information about the Blockly blocks that',
         '// made up your program. It is not required for your',
         '// webpage to work, and you can remove it if you',

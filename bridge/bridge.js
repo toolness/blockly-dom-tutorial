@@ -27,9 +27,14 @@
 
       if (msg.type == 'reload') {
         window.location.reload();
+      } else if (msg.type == 'editor_active') {
+        sessionStorage.USE_BLOCKLY_CODE = 'INDEED';
       } else if (msg.type == 'init') {
         var response = {
-          type: 'init'
+          type: 'init',
+          blocklySource: sessionStorage.BLOCKLY_SOURCE ||
+                         window.BLOCKLY_SOURCE ||
+                         null
         };
         if (window.location.hostname == 'null.jsbin.com') {
           // Arg, window.location.reload() doesn't work in jsbin's
@@ -37,9 +42,14 @@
           response.noRemoteReload = true;
         }
         iframe.contentWindow.postMessage(JSON.stringify(response), '*');
-        var script = document.createElement('script');
-        script.appendChild(document.createTextNode(msg.script));
-        document.body.appendChild(script);
+        if (msg.blocklySource)
+          sessionStorage.BLOCKLY_SOURCE = msg.blocklySource;
+        if (sessionStorage.USE_BLOCKLY_CODE) {
+          console.log('Injecting script.');
+          var script = document.createElement('script');
+          script.appendChild(document.createTextNode(msg.script));
+          document.body.appendChild(script);
+        }
       }
 
       if (msg.style) {

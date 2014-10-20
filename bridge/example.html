@@ -5,3 +5,15 @@
 <input id="name" placeholder="Enter your name here">
 <button id="go">Go</button>
 <script src="./bridge.js"></script>
+<script>
+if (!sessionStorage.USE_BLOCKLY_CODE) {
+document.getElementById('go').addEventListener("click", function() {
+  document.getElementById('foo').innerHTML = ['hello <strong>',document.getElementById('name').value,'</strong>'].join('');
+});
+}
+// Below is information about the Blockly blocks that
+// made up your program. It is not required for your
+// webpage to work, and you can remove it if you
+// don't care about others remixing your work.
+var BLOCKLY_SOURCE = "eJydk91ugkAQhV9lsxdeuvWntlQkIXXTNtWmaWnTXhGUFbdddo2Mgm.fEaxRhNT0ggwMs_ebcwJ2FiuCl04GdA6wuGEsTdNm2mmaZcRalmWxbA6xoo49UWb6TWCzEDga6FAJX6yFBkpkOKAtLFpJjS9ngUoEJRk2e5RssHQtPL8O1EoQHcQ44rkvd9wriUYCfKFEjJr_ZOPLsFBu49hMChXuzj4MqRMZm_U9x2a5BNZc37ETCCDX2I2.eu7tY4mUIGlqNOy375S3P0Z6n8_cOlJrsbz3xqM9_9ASH.ExfzrTU7fC08zUmzoEvbujN17CgMjA.zJSF.KXp3biFeYijSYS00m2jlH9t3kMcIfDiwr9QrpXjoZ.oOe5UMqQhoJ_Akujo0YE.bPMIKtVYkm9WIGfDxXIq1M3.w7_uiL47V3tsn8s364NyqoMahsROyOj2uf9533Qw..X_QHt4EJi";
+</script>
