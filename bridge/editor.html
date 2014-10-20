@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="../vendor/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="../vendor/codemirror/codemirror.css">
 <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css">
 <style>
 html, body {
@@ -40,6 +41,10 @@ ul.toolbar {
 #source textarea {
   font-family: monospace;
   font-size: 12px;
+}
+
+#source-code-holder {
+  border: 1px solid black;
 }
 </style>
 <body>
@@ -273,7 +278,7 @@ ul.toolbar {
         </div>
         <div class="modal-body">
           <p>Here is the JS source code for your program.</p>
-          <textarea class="form-control" rows="10" spellcheck="false"></textarea>
+          <div id="source-code-holder"></div>
           <div class="checkbox">
             <label>
               <input type="checkbox" id="include-blockly-source"> Allow others to remix my Blockly code.
@@ -290,6 +295,8 @@ ul.toolbar {
   <script src="../vendor/blockly/en.js"></script>
   <script src="../vendor/jquery.js"></script>
   <script src="../vendor/mdn-b64.js"></script>
+  <script src="../vendor/codemirror/codemirror.js"></script>
+  <script src="../vendor/codemirror/javascript.js"></script>
   <script src="vendor/pako.min.js"></script>
   <script src="vendor/b64gzip.js"></script>
   <script src="../dom-blocks.js"></script>

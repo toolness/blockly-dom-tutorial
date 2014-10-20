@@ -65,6 +65,8 @@
     }
   }
 
+  var editor = null;
+
   function generateViewSourceCode() {
     var js = Blockly.JavaScript.workspaceToCode();
 
@@ -78,7 +80,7 @@
                      getWorkspaceCompressed() + '";';
     }
 
-    $('#source textarea').val(js);
+    editor.setValue(js);
   }
 
   $(function() {
@@ -92,8 +94,17 @@
     loadSavedWorkspace();
 
     $('#view-source').click(function() {
-      generateViewSourceCode();
       $('#source').modal();
+      if (!editor) {
+        editor = CodeMirror($("#source-code-holder")[0], {
+          mode: "javascript"
+        });
+        $('#source').on('shown.bs.modal', function() {
+          editor.refresh();
+          editor.focus();
+        });
+      }
+      generateViewSourceCode();
     });
 
     $('#include-blockly-source').change(generateViewSourceCode);
