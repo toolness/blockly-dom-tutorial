@@ -26,10 +26,18 @@ a:hover {
   padding: 4px;
   font-size: 12px;
 }
+
+#connected {
+  float: right;
+  color: yellow;
+  display: none;
+  cursor: default;
+}
 </style>
 <title>Blockly Bridge</title>
 <div class="content">
   <a href="./editor.html" target="blockly_bridge_editor" data-window-features="width=640,height=480"><i class="fa fa-puzzle-piece" style="padding-right: 0.5em;"></i>Open Blockly Editor</a>
+  <i id="connected" class="fa fa-bolt" title="Using code from the Blockly editor."></i>
 </div>
 <script src="storage.js"></script>
 <script src="../vendor/jquery.js"></script>
@@ -68,6 +76,8 @@ $(function() {
       if (msg.noRemoteReload)
         params.noRemoteReload = 'on';
       editorLink.attr('href', baseEditorHref + '?' + $.param(params));
+      if (msg.usingBlocklyCode)
+        $('#connected').show();
     }
   }, false);
 

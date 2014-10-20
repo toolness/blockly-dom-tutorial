@@ -32,6 +32,7 @@
       } else if (msg.type == 'init') {
         var response = {
           type: 'init',
+          usingBlocklyCode: !!sessionStorage.USE_BLOCKLY_CODE,
           blocklySource: sessionStorage.BLOCKLY_SOURCE ||
                          window.BLOCKLY_SOURCE ||
                          null
